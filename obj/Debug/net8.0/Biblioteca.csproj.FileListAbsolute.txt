@@ -7,6 +7,7 @@
 /home/jnl/Descargas/code/tp-DSOO/obj/Debug/net8.0/Biblioteca.AssemblyInfoInputs.cache
 /home/jnl/Descargas/code/tp-DSOO/obj/Debug/net8.0/Biblioteca.AssemblyInfo.cs
 /home/jnl/Descargas/code/tp-DSOO/obj/Debug/net8.0/Biblioteca.csproj.CoreCompileInputs.cache
+/home/jnl/Descargas/code/tp-DSOO/obj/Debug/net8.0/Biblioteca.sourcelink.json
 /home/jnl/Descargas/code/tp-DSOO/obj/Debug/net8.0/Biblioteca.dll
 /home/jnl/Descargas/code/tp-DSOO/obj/Debug/net8.0/refint/Biblioteca.dll
 /home/jnl/Descargas/code/tp-DSOO/obj/Debug/net8.0/Biblioteca.pdb

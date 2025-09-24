@@ -1,15 +1,19 @@
 using System;
+using System.Collections.Generic;
 
-namespace Biblioteca
+namespace Colecciones
 {
     /// <summary>
     /// Clase Lector que representa a un lector registrado en la biblioteca
-    /// Cada lector tiene un nombre y un DNI único
+    /// Versión simplificada con funcionalidades básicas
     /// </summary>
     public class Lector
     {
-        public string Nombre { get; set; }
         public string Dni { get; set; }
+        public string Nombre { get; set; }
+        public string NumeroSocio { get; set; }
+        public string Telefono { get; set; }
+        public List<Libro> LibrosPrestados { get; set; }
 
         /// <summary>
         /// Constructor de la clase Lector
@@ -20,38 +24,48 @@ namespace Biblioteca
         {
             Nombre = nombre;
             Dni = dni;
+            NumeroSocio = "";
+            Telefono = "";
+            LibrosPrestados = new List<Libro>();
         }
 
         /// <summary>
-        /// Compara dos lectores por DNI
+        /// Obtiene el DNI del lector
         /// </summary>
-        /// <param name="obj">Objeto a comparar</param>
-        /// <returns>true si tienen el mismo DNI, false en caso contrario</returns>
-        public override bool Equals(object? obj)
+        /// <returns>DNI del lector</returns>
+        public string getDni()
         {
-            if (obj == null || GetType() != obj.GetType())
-                return false;
-
-            Lector lector = (Lector)obj;
-            return Dni == lector.Dni;
+            return Dni;
         }
 
         /// <summary>
-        /// Genera hash code basado en el DNI
+        /// Obtiene la cantidad de libros prestados
         /// </summary>
-        /// <returns>Hash code del lector</returns>
-        public override int GetHashCode()
+        /// <returns>Cantidad de libros prestados</returns>
+        public int getLibrosPrestados()
         {
-            return Dni?.GetHashCode() ?? 0;
+            return LibrosPrestados.Count;
+        }
+
+        /// <summary>
+        /// Agrega un libro a la lista de prestados
+        /// </summary>
+        /// <param name="libro">Libro a agregar</param>
+        public void setLibrosPrestados(Libro libro)
+        {
+            if (LibrosPrestados.Count < 3)
+            {
+                LibrosPrestados.Add(libro);
+            }
         }
 
         /// <summary>
         /// Representación en string del lector
         /// </summary>
-        /// <returns>String con nombre y DNI del lector</returns>
+        /// <returns>String con información del lector</returns>
         public override string ToString()
         {
-            return $"Lector{{Nombre='{Nombre}', Dni='{Dni}'}}";
+            return $"{Nombre} (DNI: {Dni}) - Libros prestados: {LibrosPrestados.Count}";
         }
     }
 }

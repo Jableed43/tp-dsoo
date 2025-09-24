@@ -2,17 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Biblioteca
+namespace Colecciones
 {
     /// <summary>
-    /// Clase Biblioteca que gestiona lectores, libros y préstamos
-    /// Implementa los métodos AltaLector y PrestarLibro según los requerimientos
+    /// Clase Biblioteca que gestiona lectores y libros
+    /// Versión simplificada basada en el proyecto de ejemplo
     /// </summary>
     public class Biblioteca
     {
         private List<Libro> libros;
         private List<Lector> lectores;
-        private List<Prestamo> prestamos;
 
         /// <summary>
         /// Constructor de la clase Biblioteca
@@ -21,119 +20,42 @@ namespace Biblioteca
         {
             libros = new List<Libro>();
             lectores = new List<Lector>();
-            prestamos = new List<Prestamo>();
+        }
+
+        // MÉTODOS PRIVADOS DE BÚSQUEDA
+
+        /// <summary>
+        /// Busca un libro por título
+        /// </summary>
+        /// <param name="titulo">Título del libro a buscar</param>
+        /// <returns>Libro encontrado o null si no existe</returns>
+        private Libro buscarLibroPorTitulo(string titulo)
+        {
+            foreach (Libro libro in libros)
+            {
+                if (libro.getTitulo().Equals(titulo, StringComparison.OrdinalIgnoreCase))
+                {
+                    return libro;
+                }
+            }
+            return null;
         }
 
         /// <summary>
-        /// Obtiene la lista de libros
+        /// Busca un libro por ISBN
         /// </summary>
-        public List<Libro> Libros => libros;
-
-        /// <summary>
-        /// Obtiene la lista de lectores
-        /// </summary>
-        public List<Lector> Lectores => lectores;
-
-        /// <summary>
-        /// Obtiene la lista de préstamos
-        /// </summary>
-        public List<Prestamo> Prestamos => prestamos;
-
-        /// <summary>
-        /// Da de alta un nuevo lector en la biblioteca
-        /// </summary>
-        /// <param name="nombre">Nombre del lector</param>
-        /// <param name="dni">DNI del lector</param>
-        /// <returns>true si se registró exitosamente, false si ya existía</returns>
-        public bool AltaLector(string nombre, string dni)
+        /// <param name="isbn">ISBN del libro a buscar</param>
+        /// <returns>Libro encontrado o null si no existe</returns>
+        private Libro buscarLibroPorISBN(string isbn)
         {
-            // Verificar si el lector ya existe
-            if (lectores.Any(l => l.Dni == dni))
+            foreach (Libro libro in libros)
             {
-                return false; // El lector ya existe
+                if (libro.ISBN == isbn)
+                {
+                    return libro;
+                }
             }
-
-            // Crear y agregar el nuevo lector
-            Lector nuevoLector = new Lector(nombre, dni);
-            lectores.Add(nuevoLector);
-            return true; // Lector registrado exitosamente
-        }
-
-        /// <summary>
-        /// Presta un libro a un lector
-        /// </summary>
-        /// <param name="tituloLibro">Título del libro a prestar</param>
-        /// <param name="dniLector">DNI del lector que solicita el préstamo</param>
-        /// <returns>String con el resultado del préstamo:
-        /// - "PRESTAMO EXITOSO": El préstamo se realizó correctamente
-        /// - "LIBRO INEXISTENTE": El libro no existe en la biblioteca
-        /// - "TOPE DE PRESTAMO ALCANZADO": El lector ya tiene 3 préstamos activos
-        /// - "LECTOR INEXISTENTE": El lector no está registrado</returns>
-        public string PrestarLibro(string tituloLibro, string dniLector)
-        {
-            // 1. Verificar si el lector existe
-            Lector lector = BuscarLector(dniLector);
-            if (lector == null)
-            {
-                return "LECTOR INEXISTENTE";
-            }
-
-            // 2. Verificar si el libro existe y está disponible
-            Libro libro = BuscarLibro(tituloLibro);
-            if (libro == null)
-            {
-                return "LIBRO INEXISTENTE";
-            }
-
-            if (!libro.Disponible)
-            {
-                return "LIBRO INEXISTENTE"; // El libro existe pero no está disponible
-            }
-
-            // 3. Verificar que el lector no tenga más de 3 préstamos activos
-            int prestamosActivos = ContarPrestamosActivos(lector);
-            if (prestamosActivos >= 3)
-            {
-                return "TOPE DE PRESTAMO ALCANZADO";
-            }
-
-            // 4. Realizar el préstamo
-            // Marcar el libro como no disponible
-            libro.Disponible = false;
-
-            // Crear el préstamo
-            Prestamo prestamo = new Prestamo(lector, libro);
-            prestamos.Add(prestamo);
-
-            return "PRESTAMO EXITOSO";
-        }
-
-        /// <summary>
-        /// Devuelve un libro prestado
-        /// </summary>
-        /// <param name="tituloLibro">Título del libro a devolver</param>
-        /// <param name="dniLector">DNI del lector que devuelve el libro</param>
-        /// <returns>true si se devolvió exitosamente, false en caso contrario</returns>
-        public bool DevolverLibro(string tituloLibro, string dniLector)
-        {
-            // Buscar el préstamo activo
-            Prestamo prestamo = prestamos.FirstOrDefault(p => 
-                p.IsActivo() && 
-                p.Lector.Dni == dniLector &&
-                p.Libro.Titulo == tituloLibro);
-
-            if (prestamo == null)
-            {
-                return false; // No se encontró el préstamo
-            }
-
-            // Marcar el préstamo como devuelto
-            prestamo.Devolver();
-
-            // Marcar el libro como disponible
-            prestamo.Libro.Disponible = true;
-
-            return true;
+            return null;
         }
 
         /// <summary>
@@ -141,58 +63,183 @@ namespace Biblioteca
         /// </summary>
         /// <param name="dni">DNI del lector a buscar</param>
         /// <returns>Lector encontrado o null si no existe</returns>
-        private Lector? BuscarLector(string dni)
+        private Lector buscarLector(string dni)
         {
-            return lectores.FirstOrDefault(l => l.Dni == dni);
+            foreach (Lector lector in lectores)
+            {
+                if (lector.getDni() == dni)
+                {
+                    return lector;
+                }
+            }
+            return null;
         }
 
-        /// <summary>
-        /// Busca un libro por título
-        /// </summary>
-        /// <param name="titulo">Título del libro a buscar</param>
-        /// <returns>Libro encontrado o null si no existe</returns>
-        private Libro? BuscarLibro(string titulo)
-        {
-            return libros.FirstOrDefault(l => l.Titulo == titulo);
-        }
-
-        /// <summary>
-        /// Cuenta los préstamos activos de un lector
-        /// </summary>
-        /// <param name="lector">Lector del cual contar préstamos</param>
-        /// <returns>Número de préstamos activos</returns>
-        private int ContarPrestamosActivos(Lector lector)
-        {
-            return prestamos.Count(p => p.IsActivo() && p.Lector.Equals(lector));
-        }
+        // MÉTODOS PÚBLICOS PRINCIPALES
 
         /// <summary>
         /// Agrega un libro a la biblioteca
         /// </summary>
-        /// <param name="libro">Libro a agregar</param>
-        public void AgregarLibro(Libro libro)
+        /// <param name="titulo">Título del libro</param>
+        /// <param name="autor">Autor del libro</param>
+        /// <param name="editorial">Editorial del libro</param>
+        /// <param name="isbn">ISBN del libro</param>
+        /// <returns>true si se agregó exitosamente, false si ya existía</returns>
+        public bool agregarLibro(string titulo, string autor, string editorial, string isbn)
         {
-            libros.Add(libro);
+            // Verificar si el libro ya existe
+            if (buscarLibroPorISBN(isbn) != null)
+            {
+                return false; // El libro ya existe
+            }
+
+            Libro nuevoLibro = new Libro(titulo, autor, editorial, isbn);
+            libros.Add(nuevoLibro);
+            return true;
         }
 
         /// <summary>
-        /// Obtiene los préstamos activos de un lector
+        /// Lista todos los libros de la biblioteca
         /// </summary>
-        /// <param name="dniLector">DNI del lector</param>
-        /// <returns>Lista de préstamos activos del lector</returns>
-        public List<Prestamo> GetPrestamosActivos(string dniLector)
+        public void listarLibros()
         {
-            return prestamos.Where(p => p.IsActivo() && p.Lector.Dni == dniLector).ToList();
+            Console.WriteLine("=== LIBROS EN LA BIBLIOTECA ===");
+            if (libros.Count == 0)
+            {
+                Console.WriteLine("No hay libros en la biblioteca.");
+            }
+            else
+            {
+                for (int i = 0; i < libros.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {libros[i]}");
+                }
+            }
+            Console.WriteLine();
         }
 
         /// <summary>
-        /// Obtiene información de la biblioteca
+        /// Lista los libros disponibles (no prestados)
         /// </summary>
-        /// <returns>String con estadísticas de la biblioteca</returns>
-        public string GetInformacion()
+        /// <returns>Lista de libros disponibles</returns>
+        public List<Libro> listarDisponibles()
         {
-            int prestamosActivos = prestamos.Count(p => p.IsActivo());
-            return $"Biblioteca - Libros: {libros.Count}, Lectores: {lectores.Count}, Préstamos activos: {prestamosActivos}";
+            return new List<Libro>(libros);
+        }
+
+        /// <summary>
+        /// Lista los libros prestados
+        /// </summary>
+        /// <returns>Lista de libros prestados</returns>
+        public List<Libro> listarPrestados()
+        {
+            List<Libro> librosPrestados = new List<Libro>();
+            
+            foreach (Lector lector in lectores)
+            {
+                librosPrestados.AddRange(lector.LibrosPrestados);
+            }
+            
+            return librosPrestados;
+        }
+
+        /// <summary>
+        /// Busca un libro por ISBN
+        /// </summary>
+        /// <param name="isbn">ISBN del libro a buscar</param>
+        /// <returns>Libro encontrado o null si no existe</returns>
+        public Libro buscarLibro(string isbn)
+        {
+            return buscarLibroPorISBN(isbn);
+        }
+
+        /// <summary>
+        /// Elimina un libro de la biblioteca por ISBN
+        /// </summary>
+        /// <param name="isbn">ISBN del libro a eliminar</param>
+        /// <returns>true si se eliminó exitosamente, false en caso contrario</returns>
+        public bool eliminarLibro(string isbn)
+        {
+            Libro libro = buscarLibroPorISBN(isbn);
+            if (libro != null)
+            {
+                libros.Remove(libro);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Da de alta un nuevo lector en la biblioteca
+        /// </summary>
+        /// <param name="nombre">Nombre del lector</param>
+        /// <param name="dni">DNI del lector</param>
+        /// <returns>true si se registró exitosamente, false si ya existía</returns>
+        public bool altaLector(string nombre, string dni)
+        {
+            // Verificar si el lector ya existe
+            if (buscarLector(dni) != null)
+            {
+                return false; // El lector ya existe
+            }
+
+            // Crear y agregar el nuevo lector
+            Lector nuevoLector = new Lector(nombre, dni);
+            lectores.Add(nuevoLector);
+            return true;
+        }
+
+        /// <summary>
+        /// Presta un libro a un lector
+        /// CUMPLE CON LA CONSIGNA: Remueve el libro de la biblioteca y lo asigna al lector
+        /// </summary>
+        /// <param name="titulo">Título del libro a prestar</param>
+        /// <param name="dni">DNI del lector que solicita el préstamo</param>
+        /// <returns>String con el resultado del préstamo</returns>
+        public string prestarLibro(string titulo, string dni)
+        {
+            // 1. Verificar si el lector existe
+            Lector lector = buscarLector(dni);
+            if (lector == null)
+            {
+                return "LECTOR INEXISTENTE";
+            }
+
+            // 2. Buscar el libro por título EN LA BIBLIOTECA
+            Libro libro = buscarLibroPorTitulo(titulo);
+            if (libro == null)
+            {
+                return "LIBRO INEXISTENTE";
+            }
+
+            // 3. Verificar que el lector no tenga más de 3 préstamos activos
+            if (lector.getLibrosPrestados() >= 3)
+            {
+                return "TOPE DE PRESTAMO ALCANZADO";
+            }
+
+            // 4. Realizar el préstamo según consigna:
+            // - Retirar el libro de la biblioteca
+            // - Asignárselo al lector
+            libros.Remove(libro);
+            lector.setLibrosPrestados(libro);
+
+            return "PRESTAMO EXITOSO";
+        }
+
+        /// <summary>
+        /// Obtiene información básica de la biblioteca
+        /// </summary>
+        /// <returns>String con estadísticas básicas</returns>
+        public string getInformacion()
+        {
+            int totalPrestados = 0;
+            foreach (Lector lector in lectores)
+            {
+                totalPrestados += lector.getLibrosPrestados();
+            }
+            
+            return $"Libros en biblioteca: {libros.Count}, Lectores: {lectores.Count}, Préstamos activos: {totalPrestados}";
         }
     }
 }
