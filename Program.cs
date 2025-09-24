@@ -3,14 +3,14 @@ using System;
 namespace Colecciones
 {
     /// <summary>
-    /// Clase principal con casos de prueba básicos para el sistema de biblioteca
-    /// Versión simplificada basada en el proyecto de ejemplo
+    /// Sistema de Biblioteca Interactivo
+    /// Permite al usuario interactuar libremente con el sistema
     /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("=== SISTEMA DE BIBLIOTECA ===");
+            Console.WriteLine("=== SISTEMA DE BIBLIOTECA INTERACTIVO ===");
             Console.WriteLine("Trabajo Práctico Obligatorio - POO");
             Console.WriteLine();
 
@@ -28,67 +28,148 @@ namespace Colecciones
             Console.WriteLine("Libros cargados exitosamente.");
             Console.WriteLine();
 
-            // Mostrar información inicial
-            Console.WriteLine($"Estado inicial: {biblioteca.getInformacion()}");
-            Console.WriteLine();
+            // Mostrar menú interactivo
+            MostrarMenu();
+            
+            bool continuar = true;
+            while (continuar)
+            {
+                Console.Write("\nSeleccione una opción (1-8): ");
+                string opcion = Console.ReadLine();
 
-            // Listar todos los libros
+                switch (opcion)
+                {
+                    case "1":
+                        AgregarLibro(biblioteca);
+                        break;
+                    case "2":
+                        ListarLibros(biblioteca);
+                        break;
+                    case "3":
+                        RegistrarLector(biblioteca);
+                        break;
+                    case "4":
+                        PrestarLibro(biblioteca);
+                        break;
+                    case "5":
+                        ListarDisponibles(biblioteca);
+                        break;
+                    case "6":
+                        ListarPrestados(biblioteca);
+                        break;
+                    case "7":
+                        MostrarEstado(biblioteca);
+                        break;
+                    case "8":
+                        continuar = false;
+                        Console.WriteLine("\n¡Gracias por usar el Sistema de Biblioteca!");
+                        break;
+                    default:
+                        Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-8.");
+                        break;
+                }
+            }
+        }
+
+        static void MostrarMenu()
+        {
+            Console.WriteLine("=== MENÚ PRINCIPAL ===");
+            Console.WriteLine("1. 📚 Agregar Libro");
+            Console.WriteLine("2. 📋 Listar Todos los Libros");
+            Console.WriteLine("3. 👤 Registrar Lector");
+            Console.WriteLine("4. 📖 Prestar Libro");
+            Console.WriteLine("5. ✅ Listar Libros Disponibles");
+            Console.WriteLine("6. 📤 Listar Libros Prestados");
+            Console.WriteLine("7. 📊 Mostrar Estado del Sistema");
+            Console.WriteLine("8. 🚪 Salir");
+        }
+
+        static void AgregarLibro(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== AGREGAR NUEVO LIBRO ===");
+            Console.Write("Título: ");
+            string titulo = Console.ReadLine();
+            Console.Write("Autor: ");
+            string autor = Console.ReadLine();
+            Console.Write("Editorial: ");
+            string editorial = Console.ReadLine();
+            Console.Write("ISBN: ");
+            string isbn = Console.ReadLine();
+
+            bool resultado = biblioteca.agregarLibro(titulo, autor, editorial, isbn);
+            Console.WriteLine(resultado ? "✅ Libro agregado exitosamente" : "❌ Error: El libro ya existe");
+        }
+
+        static void ListarLibros(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== TODOS LOS LIBROS ===");
             biblioteca.listarLibros();
+        }
 
-            // Registrar un lector
-            Console.WriteLine("=== REGISTRO DE LECTOR ===");
-            bool registroExitoso = biblioteca.altaLector("Juan Pérez", "12345678");
-            Console.WriteLine($"Registro de Juan Pérez: {(registroExitoso ? "EXITOSO" : "FALLIDO")}");
-            Console.WriteLine();
+        static void RegistrarLector(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== REGISTRAR NUEVO LECTOR ===");
+            Console.Write("Nombre: ");
+            string nombre = Console.ReadLine();
+            Console.Write("DNI: ");
+            string dni = Console.ReadLine();
 
-            // Probar casos de préstamo
-            Console.WriteLine("=== PRUEBAS DE PRÉSTAMOS ===");
-            
-            // Caso 1: Préstamo con lector inexistente
-            string resultado1 = biblioteca.prestarLibro("El Quijote", "99999999");
-            Console.WriteLine($"Préstamo a lector inexistente: {resultado1}");
+            bool resultado = biblioteca.altaLector(nombre, dni);
+            Console.WriteLine(resultado ? "✅ Lector registrado exitosamente" : "❌ Error: El lector ya existe");
+        }
 
-            // Caso 2: Préstamo con libro inexistente
-            string resultado2 = biblioteca.prestarLibro("Libro Inexistente", "12345678");
-            Console.WriteLine($"Préstamo de libro inexistente: {resultado2}");
+        static void PrestarLibro(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== PRESTAR LIBRO ===");
+            Console.Write("Título del libro: ");
+            string titulo = Console.ReadLine();
+            Console.Write("DNI del lector: ");
+            string dni = Console.ReadLine();
 
-            // Caso 3: Préstamos exitosos
-            string resultado3 = biblioteca.prestarLibro("El Quijote", "12345678");
-            Console.WriteLine($"Préstamo 1 - 'El Quijote': {resultado3}");
+            string resultado = biblioteca.prestarLibro(titulo, dni);
+            Console.WriteLine($"Resultado: {resultado}");
+        }
 
-            string resultado4 = biblioteca.prestarLibro("Cien años de soledad", "12345678");
-            Console.WriteLine($"Préstamo 2 - 'Cien años de soledad': {resultado4}");
+        static void ListarDisponibles(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== LIBROS DISPONIBLES ===");
+            var disponibles = biblioteca.listarDisponibles();
+            if (disponibles.Count == 0)
+            {
+                Console.WriteLine("No hay libros disponibles");
+            }
+            else
+            {
+                foreach (var libro in disponibles)
+                {
+                    Console.WriteLine($"• {libro}");
+                }
+            }
+        }
 
-            string resultado5 = biblioteca.prestarLibro("Don Juan Tenorio", "12345678");
-            Console.WriteLine($"Préstamo 3 - 'Don Juan Tenorio': {resultado5}");
+        static void ListarPrestados(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== LIBROS PRESTADOS ===");
+            var prestados = biblioteca.listarPrestados();
+            if (prestados.Count == 0)
+            {
+                Console.WriteLine("No hay libros prestados");
+            }
+            else
+            {
+                foreach (var libro in prestados)
+                {
+                    Console.WriteLine($"• {libro}");
+                }
+            }
+        }
 
-            // Caso 4: Préstamo que debe fallar por tope alcanzado
-            string resultado6 = biblioteca.prestarLibro("La Celestina", "12345678");
-            Console.WriteLine($"Préstamo 4 (debería fallar): {resultado6}");
-
-            Console.WriteLine();
-
-            // Mostrar estado final
-            Console.WriteLine("=== ESTADO FINAL ===");
-            Console.WriteLine($"Estado final: {biblioteca.getInformacion()}");
-            Console.WriteLine();
-
-            // Mostrar libros disponibles y prestados
-            Console.WriteLine($"Libros disponibles: {biblioteca.listarDisponibles().Count}");
-            Console.WriteLine($"Libros prestados: {biblioteca.listarPrestados().Count}");
-
-            Console.WriteLine();
-            Console.WriteLine("=== PRUEBAS COMPLETADAS ===");
-            Console.WriteLine("El sistema ha demostrado:");
-            Console.WriteLine("✓ Gestión básica de libros");
-            Console.WriteLine("✓ Registro de lectores con validación de duplicados");
-            Console.WriteLine("✓ Sistema de préstamos con validaciones según consigna");
-            Console.WriteLine("✓ Control del límite máximo de 3 préstamos por lector");
-            Console.WriteLine("✓ Manejo de casos de error");
-            
-            Console.WriteLine();
-            Console.WriteLine("Presione Enter para salir...");
-            Console.ReadLine();
+        static void MostrarEstado(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== ESTADO DEL SISTEMA ===");
+            Console.WriteLine($"📊 {biblioteca.getInformacion()}");
+            Console.WriteLine($"📚 Libros disponibles: {biblioteca.listarDisponibles().Count}");
+            Console.WriteLine($"📤 Libros prestados: {biblioteca.listarPrestados().Count}");
         }
     }
 }
