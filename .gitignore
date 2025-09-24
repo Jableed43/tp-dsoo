@@ -12,6 +12,10 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+# .NET specific
+bin/
+obj/
+
 # Visual Studio
 .vs/
 *.user

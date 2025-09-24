@@ -34,7 +34,7 @@ namespace Colecciones
             bool continuar = true;
             while (continuar)
             {
-                Console.Write("\nSeleccione una opción (1-8): ");
+                Console.Write("\nSeleccione una opción (1-10): ");
                 string opcion = Console.ReadLine();
 
                 switch (opcion)
@@ -58,14 +58,20 @@ namespace Colecciones
                         ListarPrestados(biblioteca);
                         break;
                     case "7":
-                        MostrarEstado(biblioteca);
+                        ListarLectores(biblioteca);
                         break;
                     case "8":
+                        ListarLectoresConLibros(biblioteca);
+                        break;
+                    case "9":
+                        MostrarEstado(biblioteca);
+                        break;
+                    case "10":
                         continuar = false;
                         Console.WriteLine("\n¡Gracias por usar el Sistema de Biblioteca!");
                         break;
                     default:
-                        Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-8.");
+                        Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-10.");
                         break;
                 }
             }
@@ -80,8 +86,10 @@ namespace Colecciones
             Console.WriteLine("4. 📖 Prestar Libro");
             Console.WriteLine("5. ✅ Listar Libros Disponibles");
             Console.WriteLine("6. 📤 Listar Libros Prestados");
-            Console.WriteLine("7. 📊 Mostrar Estado del Sistema");
-            Console.WriteLine("8. 🚪 Salir");
+            Console.WriteLine("7. 👥 Listar Lectores");
+            Console.WriteLine("8. 📚👥 Listar Lectores con sus Libros");
+            Console.WriteLine("9. 📊 Mostrar Estado del Sistema");
+            Console.WriteLine("10. 🚪 Salir");
         }
 
         static void AgregarLibro(Biblioteca biblioteca)
@@ -162,6 +170,18 @@ namespace Colecciones
                     Console.WriteLine($"• {libro}");
                 }
             }
+        }
+
+        static void ListarLectores(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== LECTORES REGISTRADOS ===");
+            biblioteca.listarLectores();
+        }
+
+        static void ListarLectoresConLibros(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== LECTORES Y SUS LIBROS PRESTADOS ===");
+            biblioteca.listarLectoresConLibros();
         }
 
         static void MostrarEstado(Biblioteca biblioteca)

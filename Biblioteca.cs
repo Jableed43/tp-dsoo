@@ -228,6 +228,58 @@ namespace Colecciones
         }
 
         /// <summary>
+        /// Lista todos los lectores registrados
+        /// </summary>
+        public void listarLectores()
+        {
+            Console.WriteLine("=== LECTORES REGISTRADOS ===");
+            if (lectores.Count == 0)
+            {
+                Console.WriteLine("No hay lectores registrados.");
+            }
+            else
+            {
+                for (int i = 0; i < lectores.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {lectores[i]}");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Lista los lectores con sus libros prestados
+        /// </summary>
+        public void listarLectoresConLibros()
+        {
+            Console.WriteLine("=== LECTORES Y SUS LIBROS PRESTADOS ===");
+            if (lectores.Count == 0)
+            {
+                Console.WriteLine("No hay lectores registrados.");
+            }
+            else
+            {
+                foreach (Lector lector in lectores)
+                {
+                    Console.WriteLine($"\n👤 {lector.Nombre} (DNI: {lector.Dni})");
+                    if (lector.LibrosPrestados.Count == 0)
+                    {
+                        Console.WriteLine("   📚 No tiene libros prestados");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"   📚 Libros prestados ({lector.LibrosPrestados.Count}):");
+                        for (int i = 0; i < lector.LibrosPrestados.Count; i++)
+                        {
+                            Console.WriteLine($"      {i + 1}. {lector.LibrosPrestados[i]}");
+                        }
+                    }
+                }
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
         /// Obtiene información básica de la biblioteca
         /// </summary>
         /// <returns>String con estadísticas básicas</returns>
