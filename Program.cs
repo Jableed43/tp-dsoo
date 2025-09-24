@@ -28,13 +28,27 @@ namespace Colecciones
             Console.WriteLine("Libros cargados exitosamente.");
             Console.WriteLine();
 
+            // Cargar lectores de ejemplo con préstamos
+            Console.WriteLine("=== CARGANDO LECTORES DE EJEMPLO ===");
+            biblioteca.altaLector("Juan Pérez", "12345678");
+            biblioteca.altaLector("María García", "87654321");
+            biblioteca.altaLector("Carlos López", "11223344");
+            
+            // Hacer préstamos de ejemplo
+            biblioteca.prestarLibro("El Quijote", "12345678");
+            biblioteca.prestarLibro("Cien años de soledad", "87654321");
+            biblioteca.prestarLibro("Don Juan Tenorio", "11223344");
+            
+            Console.WriteLine("Lectores cargados con préstamos de ejemplo.");
+            Console.WriteLine();
+
             // Mostrar menú interactivo
             MostrarMenu();
             
             bool continuar = true;
             while (continuar)
             {
-                Console.Write("\nSeleccione una opción (1-10): ");
+                Console.Write("\nSeleccione una opción (1-11): ");
                 string opcion = Console.ReadLine();
 
                 switch (opcion)
@@ -52,26 +66,29 @@ namespace Colecciones
                         PrestarLibro(biblioteca);
                         break;
                     case "5":
-                        ListarDisponibles(biblioteca);
+                        DevolverLibro(biblioteca);
                         break;
                     case "6":
-                        ListarPrestados(biblioteca);
+                        ListarDisponibles(biblioteca);
                         break;
                     case "7":
-                        ListarLectores(biblioteca);
+                        ListarPrestados(biblioteca);
                         break;
                     case "8":
-                        ListarLectoresConLibros(biblioteca);
+                        ListarLectores(biblioteca);
                         break;
                     case "9":
-                        MostrarEstado(biblioteca);
+                        ListarLectoresConLibros(biblioteca);
                         break;
                     case "10":
+                        MostrarEstado(biblioteca);
+                        break;
+                    case "11":
                         continuar = false;
                         Console.WriteLine("\n¡Gracias por usar el Sistema de Biblioteca!");
                         break;
                     default:
-                        Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-10.");
+                        Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-11.");
                         break;
                 }
             }
@@ -84,12 +101,13 @@ namespace Colecciones
             Console.WriteLine("2. 📋 Listar Todos los Libros");
             Console.WriteLine("3. 👤 Registrar Lector");
             Console.WriteLine("4. 📖 Prestar Libro");
-            Console.WriteLine("5. ✅ Listar Libros Disponibles");
-            Console.WriteLine("6. 📤 Listar Libros Prestados");
-            Console.WriteLine("7. 👥 Listar Lectores");
-            Console.WriteLine("8. 📚👥 Listar Lectores con sus Libros");
-            Console.WriteLine("9. 📊 Mostrar Estado del Sistema");
-            Console.WriteLine("10. 🚪 Salir");
+            Console.WriteLine("5. 📤 Devolver Libro");
+            Console.WriteLine("6. ✅ Listar Libros Disponibles");
+            Console.WriteLine("7. 📤 Listar Libros Prestados");
+            Console.WriteLine("8. 👥 Listar Lectores");
+            Console.WriteLine("9. 📚👥 Listar Lectores con sus Libros");
+            Console.WriteLine("10. 📊 Mostrar Estado del Sistema");
+            Console.WriteLine("11. 🚪 Salir");
         }
 
         static void AgregarLibro(Biblioteca biblioteca)
@@ -135,6 +153,18 @@ namespace Colecciones
             string dni = Console.ReadLine();
 
             string resultado = biblioteca.prestarLibro(titulo, dni);
+            Console.WriteLine($"Resultado: {resultado}");
+        }
+
+        static void DevolverLibro(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== DEVOLVER LIBRO ===");
+            Console.Write("Título del libro: ");
+            string titulo = Console.ReadLine();
+            Console.Write("DNI del lector: ");
+            string dni = Console.ReadLine();
+
+            string resultado = biblioteca.devolverLibro(titulo, dni);
             Console.WriteLine($"Resultado: {resultado}");
         }
 

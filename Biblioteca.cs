@@ -99,22 +99,44 @@ namespace Colecciones
         }
 
         /// <summary>
-        /// Lista todos los libros de la biblioteca
+        /// Lista todos los libros (disponibles y prestados)
         /// </summary>
         public void listarLibros()
         {
-            Console.WriteLine("=== LIBROS EN LA BIBLIOTECA ===");
+            Console.WriteLine("=== TODOS LOS LIBROS (DISPONIBLES Y PRESTADOS) ===");
+            
+            // Obtener todos los libros prestados
+            List<Libro> librosPrestados = listarPrestados();
+            
+            // Mostrar libros disponibles
+            Console.WriteLine("\n📚 LIBROS DISPONIBLES:");
             if (libros.Count == 0)
             {
-                Console.WriteLine("No hay libros en la biblioteca.");
+                Console.WriteLine("   No hay libros disponibles en la biblioteca.");
             }
             else
             {
                 for (int i = 0; i < libros.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {libros[i]}");
+                    Console.WriteLine($"   {i + 1}. {libros[i]}");
                 }
             }
+            
+            // Mostrar libros prestados
+            Console.WriteLine("\n📤 LIBROS PRESTADOS:");
+            if (librosPrestados.Count == 0)
+            {
+                Console.WriteLine("   No hay libros prestados.");
+            }
+            else
+            {
+                for (int i = 0; i < librosPrestados.Count; i++)
+                {
+                    Console.WriteLine($"   {i + 1}. {librosPrestados[i]}");
+                }
+            }
+            
+            Console.WriteLine($"\n📊 Total: {libros.Count + librosPrestados.Count} libros ({libros.Count} disponibles, {librosPrestados.Count} prestados)");
             Console.WriteLine();
         }
 
@@ -225,6 +247,46 @@ namespace Colecciones
             lector.setLibrosPrestados(libro);
 
             return "PRESTAMO EXITOSO";
+        }
+
+        /// <summary>
+        /// Devuelve un libro prestado a la biblioteca
+        /// </summary>
+        /// <param name="titulo">Título del libro a devolver</param>
+        /// <param name="dni">DNI del lector que devuelve el libro</param>
+        /// <returns>String con el resultado de la devolución</returns>
+        public string devolverLibro(string titulo, string dni)
+        {
+            // 1. Verificar si el lector existe
+            Lector lector = buscarLector(dni);
+            if (lector == null)
+            {
+                return "LECTOR INEXISTENTE";
+            }
+
+            // 2. Buscar el libro en los libros prestados del lector
+            Libro libroPrestado = null;
+            foreach (Libro libro in lector.LibrosPrestados)
+            {
+                if (libro.getTitulo().Equals(titulo, StringComparison.OrdinalIgnoreCase))
+                {
+                    libroPrestado = libro;
+                    break;
+                }
+            }
+
+            if (libroPrestado == null)
+            {
+                return "LIBRO NO PRESTADO POR ESTE LECTOR";
+            }
+
+            // 3. Realizar la devolución:
+            // - Remover el libro de los prestados del lector
+            // - Agregarlo de vuelta a la biblioteca
+            lector.LibrosPrestados.Remove(libroPrestado);
+            libros.Add(libroPrestado);
+
+            return "DEVOLUCION EXITOSA";
         }
 
         /// <summary>
