@@ -48,7 +48,7 @@ namespace Colecciones
             bool continuar = true;
             while (continuar)
             {
-                Console.Write("\nSeleccione una opción (1-11): ");
+                Console.Write("\nSeleccione una opción (1-12): ");
                 string opcion = Console.ReadLine();
 
                 switch (opcion)
@@ -84,11 +84,14 @@ namespace Colecciones
                         MostrarEstado(biblioteca);
                         break;
                     case "11":
+                        VerHistorialLector(biblioteca);
+                        break;
+                    case "12":
                         continuar = false;
                         Console.WriteLine("\n¡Gracias por usar el Sistema de Biblioteca!");
                         break;
                     default:
-                        Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-11.");
+                        Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-12.");
                         break;
                 }
             }
@@ -107,7 +110,8 @@ namespace Colecciones
             Console.WriteLine("8. 👥 Listar Lectores");
             Console.WriteLine("9. 📚👥 Listar Lectores con sus Libros");
             Console.WriteLine("10. 📊 Mostrar Estado del Sistema");
-            Console.WriteLine("11. 🚪 Salir");
+            Console.WriteLine("11. 📜 Ver Historial de Lector");
+            Console.WriteLine("12. 🚪 Salir");
         }
 
         static void AgregarLibro(Biblioteca biblioteca)
@@ -220,6 +224,15 @@ namespace Colecciones
             Console.WriteLine($"📊 {biblioteca.getInformacion()}");
             Console.WriteLine($"📚 Libros disponibles: {biblioteca.listarDisponibles().Count}");
             Console.WriteLine($"📤 Libros prestados: {biblioteca.listarPrestados().Count}");
+        }
+
+        static void VerHistorialLector(Biblioteca biblioteca)
+        {
+            Console.WriteLine("\n=== VER HISTORIAL DE LECTOR ===");
+            Console.Write("DNI del lector: ");
+            string dni = Console.ReadLine();
+
+            biblioteca.listarHistorialLector(dni);
         }
     }
 }

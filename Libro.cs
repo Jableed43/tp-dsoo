@@ -2,10 +2,7 @@ using System;
 
 namespace Colecciones
 {
-    /// <summary>
-    /// Clase Libro que representa un libro en la biblioteca
-    /// Versión simplificada con funcionalidades básicas
-    /// </summary>
+    // Clase que maneja la información de los libros
     public class Libro
     {
         public string Titulo { get; set; }
@@ -13,13 +10,7 @@ namespace Colecciones
         public string Editorial { get; set; }
         public string ISBN { get; set; }
 
-        /// <summary>
-        /// Constructor de la clase Libro
-        /// </summary>
-        /// <param name="titulo">Título del libro</param>
-        /// <param name="autor">Autor del libro</param>
-        /// <param name="editorial">Editorial del libro</param>
-        /// <param name="isbn">ISBN del libro</param>
+        // Constructor para crear un nuevo libro
         public Libro(string titulo, string autor, string editorial, string isbn)
         {
             Titulo = titulo;
@@ -28,19 +19,13 @@ namespace Colecciones
             ISBN = isbn;
         }
 
-        /// <summary>
-        /// Obtiene el título del libro
-        /// </summary>
-        /// <returns>Título del libro</returns>
+        // Devuelve el título del libro
         public string getTitulo()
         {
             return Titulo;
         }
 
-        /// <summary>
-        /// Representación en string del libro
-        /// </summary>
-        /// <returns>String con información del libro</returns>
+        // Formato para mostrar el libro
         public override string ToString()
         {
             return $"{Titulo} - {Autor} ({Editorial})";

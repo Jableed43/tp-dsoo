@@ -3,10 +3,7 @@ using System.Collections.Generic;
 
 namespace Colecciones
 {
-    /// <summary>
-    /// Clase Lector que representa a un lector registrado en la biblioteca
-    /// Versión simplificada con funcionalidades básicas
-    /// </summary>
+    // Clase para manejar los lectores de la biblioteca
     public class Lector
     {
         public string Dni { get; set; }
@@ -14,12 +11,9 @@ namespace Colecciones
         public string NumeroSocio { get; set; }
         public string Telefono { get; set; }
         public List<Libro> LibrosPrestados { get; set; }
+        public List<Libro> HistorialPrestados { get; set; }
 
-        /// <summary>
-        /// Constructor de la clase Lector
-        /// </summary>
-        /// <param name="nombre">Nombre del lector</param>
-        /// <param name="dni">DNI del lector (debe ser único)</param>
+        // Constructor para crear un nuevo lector
         public Lector(string nombre, string dni)
         {
             Nombre = nombre;
@@ -27,30 +21,22 @@ namespace Colecciones
             NumeroSocio = "";
             Telefono = "";
             LibrosPrestados = new List<Libro>();
+            HistorialPrestados = new List<Libro>();
         }
 
-        /// <summary>
-        /// Obtiene el DNI del lector
-        /// </summary>
-        /// <returns>DNI del lector</returns>
+        // Devuelve el DNI del lector
         public string getDni()
         {
             return Dni;
         }
 
-        /// <summary>
-        /// Obtiene la cantidad de libros prestados
-        /// </summary>
-        /// <returns>Cantidad de libros prestados</returns>
+        // Cuenta cuántos libros tiene prestados
         public int getLibrosPrestados()
         {
             return LibrosPrestados.Count;
         }
 
-        /// <summary>
-        /// Agrega un libro a la lista de prestados
-        /// </summary>
-        /// <param name="libro">Libro a agregar</param>
+        // Agrega un libro a la lista de prestados (máximo 3)
         public void setLibrosPrestados(Libro libro)
         {
             if (LibrosPrestados.Count < 3)
@@ -59,10 +45,19 @@ namespace Colecciones
             }
         }
 
-        /// <summary>
-        /// Representación en string del lector
-        /// </summary>
-        /// <returns>String con información del lector</returns>
+        // Obtiene el historial de libros prestados
+        public List<Libro> getHistorialPrestados()
+        {
+            return HistorialPrestados;
+        }
+
+        // Agrega un libro al historial cuando se presta
+        public void agregarAlHistorial(Libro libro)
+        {
+            HistorialPrestados.Add(libro);
+        }
+
+        // Formato para mostrar el lector
         public override string ToString()
         {
             return $"{Nombre} (DNI: {Dni}) - Libros prestados: {LibrosPrestados.Count}";

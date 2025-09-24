@@ -21,6 +21,8 @@ Este trabajo práctico tiene como objetivo principal la aplicación práctica de
 
 ### Sistema de Préstamos
 - **Préstamo de Libros**: Asignación de libros a lectores registrados
+- **Devolución de Libros**: Sistema completo de devolución con validaciones
+- **Historial de Préstamos**: Registro completo de todos los libros prestados por cada lector
 - **Control de Límites**: Restricción máxima de 3 libros por lector simultáneamente
 - **Validaciones de Seguridad**: Verificación de existencia de libros y lectores
 
@@ -39,6 +41,7 @@ Modela a los usuarios del sistema:
 - **Nombre**: Nombre completo del lector
 - **DNI**: Identificación única
 - **Libros Prestados**: Control de préstamos activos
+- **Historial de Préstamos**: Registro de todos los libros prestados históricamente
 
 #### `Biblioteca`
 Clase principal que orquesta todas las operaciones:
@@ -48,14 +51,14 @@ Clase principal que orquesta todas las operaciones:
 
 ## 🔧 Requisitos Técnicos
 
-- **.NET 8.0** o superior
+- **.NET** (versión compatible)
 - **Visual Studio 2022** (recomendado) o cualquier IDE compatible con C#
 - **Sistema operativo**: Windows, macOS o Linux
 
 ## 🚀 Instalación y Ejecución
 
 ### Prerrequisitos
-1. Instalar .NET 8.0 SDK
+1. Instalar .NET SDK
 2. Clonar o descargar el repositorio
 3. Abrir el proyecto en Visual Studio 2022
 
@@ -88,12 +91,23 @@ Resultado: Préstamo realizado correctamente
 - **Libro No Disponible**: "LIBRO INEXISTENTE"
 - **Límite Alcanzado**: "TOPE DE PRESTAMO ALCANZADO"
 
+## 🖥️ Sistema Interactivo
+
+El sistema incluye una interfaz de usuario completa con menú interactivo que permite:
+- ✅ **Gestión Completa**: Agregar libros, registrar lectores, realizar préstamos y devoluciones
+- ✅ **Consultas Avanzadas**: Listar libros disponibles, prestados, lectores con sus préstamos
+- ✅ **Historial de Préstamos**: Consultar el historial completo de préstamos de cualquier lector
+- ✅ **Estadísticas del Sistema**: Información en tiempo real del estado de la biblioteca
+- ✅ **Datos de Ejemplo**: Carga automática de libros y lectores de prueba para demostración
+
 ## 🧪 Pruebas del Sistema
 
 El sistema incluye casos de prueba manuales que demuestran:
 - ✅ Registro de usuarios con validación
 - ✅ Gestión de libros en el catálogo
 - ✅ Sistema de préstamos con restricciones
+- ✅ Sistema de devoluciones con validaciones
+- ✅ Consulta de historial de préstamos por lector
 - ✅ Manejo de casos de error
 - ✅ Control de límites de préstamo
 
@@ -102,7 +116,7 @@ El sistema incluye casos de prueba manuales que demuestran:
 ## 🛠️ Tecnologías Utilizadas
 
 - **C#**: Lenguaje de programación principal
-- **.NET 8.0**: Framework de desarrollo
+- **.NET**: Framework de desarrollo
 - **Visual Studio 2022**: Entorno de desarrollo integrado
 - **Programación Orientada a Objetos**: Paradigma de diseño
 

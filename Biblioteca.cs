@@ -4,31 +4,22 @@ using System.Linq;
 
 namespace Colecciones
 {
-    /// <summary>
-    /// Clase Biblioteca que gestiona lectores y libros
-    /// Versión simplificada basada en el proyecto de ejemplo
-    /// </summary>
+    // Clase principal que maneja toda la lógica de la biblioteca
     public class Biblioteca
     {
         private List<Libro> libros;
         private List<Lector> lectores;
 
-        /// <summary>
-        /// Constructor de la clase Biblioteca
-        /// </summary>
+        // Constructor que inicializa las listas
         public Biblioteca()
         {
             libros = new List<Libro>();
             lectores = new List<Lector>();
         }
 
-        // MÉTODOS PRIVADOS DE BÚSQUEDA
+        // Métodos privados para buscar libros y lectores
 
-        /// <summary>
-        /// Busca un libro por título
-        /// </summary>
-        /// <param name="titulo">Título del libro a buscar</param>
-        /// <returns>Libro encontrado o null si no existe</returns>
+        // Busca un libro por su título (ignora mayúsculas/minúsculas)
         private Libro buscarLibroPorTitulo(string titulo)
         {
             foreach (Libro libro in libros)
@@ -41,11 +32,7 @@ namespace Colecciones
             return null;
         }
 
-        /// <summary>
-        /// Busca un libro por ISBN
-        /// </summary>
-        /// <param name="isbn">ISBN del libro a buscar</param>
-        /// <returns>Libro encontrado o null si no existe</returns>
+        // Busca un libro por su ISBN
         private Libro buscarLibroPorISBN(string isbn)
         {
             foreach (Libro libro in libros)
@@ -58,11 +45,7 @@ namespace Colecciones
             return null;
         }
 
-        /// <summary>
-        /// Busca un lector por DNI
-        /// </summary>
-        /// <param name="dni">DNI del lector a buscar</param>
-        /// <returns>Lector encontrado o null si no existe</returns>
+        // Busca un lector por su DNI
         private Lector buscarLector(string dni)
         {
             foreach (Lector lector in lectores)
@@ -75,16 +58,9 @@ namespace Colecciones
             return null;
         }
 
-        // MÉTODOS PÚBLICOS PRINCIPALES
+        // Métodos principales para gestionar libros y lectores
 
-        /// <summary>
-        /// Agrega un libro a la biblioteca
-        /// </summary>
-        /// <param name="titulo">Título del libro</param>
-        /// <param name="autor">Autor del libro</param>
-        /// <param name="editorial">Editorial del libro</param>
-        /// <param name="isbn">ISBN del libro</param>
-        /// <returns>true si se agregó exitosamente, false si ya existía</returns>
+        // Agrega un nuevo libro a la biblioteca
         public bool agregarLibro(string titulo, string autor, string editorial, string isbn)
         {
             // Verificar si el libro ya existe
@@ -98,9 +74,7 @@ namespace Colecciones
             return true;
         }
 
-        /// <summary>
-        /// Lista todos los libros (disponibles y prestados)
-        /// </summary>
+        // Muestra todos los libros (disponibles y prestados)
         public void listarLibros()
         {
             Console.WriteLine("=== TODOS LOS LIBROS (DISPONIBLES Y PRESTADOS) ===");
@@ -140,19 +114,13 @@ namespace Colecciones
             Console.WriteLine();
         }
 
-        /// <summary>
-        /// Lista los libros disponibles (no prestados)
-        /// </summary>
-        /// <returns>Lista de libros disponibles</returns>
+        // Devuelve la lista de libros disponibles
         public List<Libro> listarDisponibles()
         {
             return new List<Libro>(libros);
         }
 
-        /// <summary>
-        /// Lista los libros prestados
-        /// </summary>
-        /// <returns>Lista de libros prestados</returns>
+        // Devuelve la lista de libros prestados
         public List<Libro> listarPrestados()
         {
             List<Libro> librosPrestados = new List<Libro>();
@@ -165,21 +133,13 @@ namespace Colecciones
             return librosPrestados;
         }
 
-        /// <summary>
-        /// Busca un libro por ISBN
-        /// </summary>
-        /// <param name="isbn">ISBN del libro a buscar</param>
-        /// <returns>Libro encontrado o null si no existe</returns>
+        // Busca un libro por ISBN (método público)
         public Libro buscarLibro(string isbn)
         {
             return buscarLibroPorISBN(isbn);
         }
 
-        /// <summary>
-        /// Elimina un libro de la biblioteca por ISBN
-        /// </summary>
-        /// <param name="isbn">ISBN del libro a eliminar</param>
-        /// <returns>true si se eliminó exitosamente, false en caso contrario</returns>
+        // Elimina un libro de la biblioteca
         public bool eliminarLibro(string isbn)
         {
             Libro libro = buscarLibroPorISBN(isbn);
@@ -191,12 +151,7 @@ namespace Colecciones
             return false;
         }
 
-        /// <summary>
-        /// Da de alta un nuevo lector en la biblioteca
-        /// </summary>
-        /// <param name="nombre">Nombre del lector</param>
-        /// <param name="dni">DNI del lector</param>
-        /// <returns>true si se registró exitosamente, false si ya existía</returns>
+        // Registra un nuevo lector en la biblioteca
         public bool altaLector(string nombre, string dni)
         {
             // Verificar si el lector ya existe
@@ -243,8 +198,10 @@ namespace Colecciones
             // 4. Realizar el préstamo según consigna:
             // - Retirar el libro de la biblioteca
             // - Asignárselo al lector
+            // - Agregar al historial del lector
             libros.Remove(libro);
             lector.setLibrosPrestados(libro);
+            lector.agregarAlHistorial(libro);
 
             return "PRESTAMO EXITOSO";
         }
@@ -336,6 +293,34 @@ namespace Colecciones
                             Console.WriteLine($"      {i + 1}. {lector.LibrosPrestados[i]}");
                         }
                     }
+                }
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Lista el historial de préstamos de un lector específico
+        /// </summary>
+        /// <param name="dni">DNI del lector</param>
+        public void listarHistorialLector(string dni)
+        {
+            Lector lector = buscarLector(dni);
+            if (lector == null)
+            {
+                Console.WriteLine("❌ Lector no encontrado.");
+                return;
+            }
+
+            Console.WriteLine($"=== HISTORIAL DE PRÉSTAMOS - {lector.Nombre} ===");
+            if (lector.getHistorialPrestados().Count == 0)
+            {
+                Console.WriteLine("No hay libros en el historial de préstamos.");
+            }
+            else
+            {
+                for (int i = 0; i < lector.getHistorialPrestados().Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {lector.getHistorialPrestados()[i]}");
                 }
             }
             Console.WriteLine();
