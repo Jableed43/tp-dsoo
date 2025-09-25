@@ -64,11 +64,13 @@ Clase principal que orquesta todas las operaciones:
 
 ### Compilación
 ```bash
+cd codigo
 dotnet build
 ```
 
 ### Ejecución
 ```bash
+cd codigo
 dotnet run
 ```
 
@@ -123,15 +125,21 @@ El sistema incluye casos de prueba manuales que demuestran:
 ## 📊 Estructura del Proyecto
 
 ```
-Biblioteca/
-├── Biblioteca.sln          # Archivo de solución
-├── Biblioteca.csproj       # Configuración del proyecto
-├── Biblioteca.cs           # Clase principal del sistema
-├── Lector.cs              # Modelo de usuario
-├── Libro.cs               # Modelo de libro
-├── Program.cs             # Punto de entrada
-├── README.md             # Documentación
-└── .gitignore            # Configuración de Git
+tp-DSOO/
+├── codigo/                     # Código fuente del sistema
+│   ├── Biblioteca.sln         # Archivo de solución
+│   ├── Biblioteca.csproj      # Configuración del proyecto
+│   ├── Biblioteca.cs          # Clase principal del sistema
+│   ├── Lector.cs             # Modelo de usuario
+│   ├── Libro.cs              # Modelo de libro
+│   └── Program.cs            # Punto de entrada
+├── uml/                      # Documentación UML
+│   ├── diagrama_uml_biblioteca.md    # Documentación UML
+│   └── diagrama_uml_biblioteca.jpg   # Diagrama UML
+├── README.md                # Documentación principal
+├── LICENSE                   # Licencia MIT
+├── .gitignore               # Configuración de Git
+└── .editorconfig            # Configuración del editor
 ```
 
 ## 🎓 Objetivos de Aprendizaje
