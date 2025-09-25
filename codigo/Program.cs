@@ -94,6 +94,15 @@ namespace Colecciones
                         Console.WriteLine("❌ Opción inválida. Por favor, seleccione 1-12.");
                         break;
                 }
+                
+                // Mostrar menú nuevamente después de cada opción (excepto salir)
+                if (continuar)
+                {
+                    Console.WriteLine("\nPresione Enter para continuar...");
+                    Console.ReadLine();
+                    Console.Clear();
+                    MostrarMenu();
+                }
             }
         }
 

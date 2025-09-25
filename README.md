@@ -113,7 +113,7 @@ El sistema incluye casos de prueba manuales que demuestran:
 - ✅ Manejo de casos de error
 - ✅ Control de límites de préstamo
 
-**Nota**: Los casos de prueba se ejecutan automáticamente al iniciar el programa y demuestran todas las funcionalidades del sistema.
+**Nota**: El sistema carga automáticamente datos de ejemplo (libros, lectores y préstamos) para demostración, y luego presenta un menú interactivo para que el usuario pruebe todas las funcionalidades.
 
 ## 🛠️ Tecnologías Utilizadas
 
